@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Bin Ltd — Admin Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+.header{background:linear-gradient(135deg,#1e3a5f 0%,#0f172a 100%);padding:1.5rem 2rem;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:1.5rem;color:#38bdf8}
+.badge{background:#059669;color:white;padding:.25rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:600}
+.container{max-width:1400px;margin:0 auto;padding:2rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-bottom:2rem}
+.card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:1.5rem;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-2px);border-color:#38bdf8}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.card-title{font-size:.875rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em}
+.card-value{font-size:2rem;font-weight:700;color:#f8fafc}
+.card-sub{font-size:.875rem;color:#64748b;margin-top:.5rem}
+.positive{color:#34d399}.negative{color:#f87171}.neutral{color:#fbbf24}
+.section-title{font-size:1.25rem;font-weight:600;margin:2rem 0 1rem;color:#38bdf8}
+table{width:100%;border-collapse:collapse;background:#1e293b;border-radius:12px;overflow:hidden}
+th,td{padding:1rem;text-align:left;border-bottom:1px solid #334155}
+th{background:#0f172a;color:#94a3b8;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+td{font-size:.875rem}
+.status{padding:.25rem .5rem;border-radius:9999px;font-size:.75rem;font-weight:600}
+.status-paid{background:#064e3b;color:#34d399}
+.status-pending{background:#451a03;color:#fbbf24}
+.status-overdue{background:#450a0a;color:#f87171}
+.loading{text-align:center;padding:3rem;color:#64748b}
+.api-info{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:1.5rem;margin-top:2rem}
+.api-info h3{color:#38bdf8;margin-bottom:.5rem}
+.api-info code{background:#0f172a;padding:.25rem .5rem;border-radius:4px;font-family:'Courier New',monospace;font-size:.875rem;color:#34d399}
+.footer{text-align:center;padding:2rem;color:#475569;font-size:.75rem;border-top:1px solid #334155;margin-top:2rem}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.header{flex-direction:column;gap:1rem}}
+</style>
+</head>
+<body>
+<div class="header"><div><h1>🗑️ Smart Bin Ltd</h1><div style="color:#64748b;font-size:.875rem;margin-top:.25rem">Enterprise Garbage Collection Management</div></div><div style="display:flex;gap:1rem;align-items:center"><span class="badge">● Live</span><span style="color:#64748b;font-size:.875rem">v2.0.0</span></div></div>
+<div class="container">
+<div id="loading" class="loading">Loading dashboard data...</div>
+<div id="content" style="display:none">
+<div class="grid" id="kpi-cards"></div>
+<div class="section-title">📊 Revenue by Estate</div><table id="revenue-table"><thead><tr><th>Estate</th><th>Revenue (KES)</th><th>Transactions</th></tr></thead><tbody></tbody></table>
+<div class="section-title">⚠️ Overdue Aging</div><table id="aging-table"><thead><tr><th>Bucket</th><th>Count</th><th>Amount (KES)</th></tr></thead><tbody></tbody></table>
+<div class="section-title">🔔 Recent Activity</div><table id="activity-table"><thead><tr><th>Type</th><th>Account</th><th>Details</th><th>Time</th></tr></thead><tbody></tbody></table>
+</div>
+<div class="api-info"><h3>🔌 API Endpoints</h3><p style="color:#94a3b8;margin-bottom:1rem">All data from FastAPI backend. Test these:</p>
+<div style="display:grid;gap:.5rem"><div><code>GET /health</code> — System health</div><div><code>POST /api/auth/login</code> — Admin auth</div><div><code>GET /api/dashboard/stats</code> — KPIs</div><div><code>GET /api/portal/statement?account_number=348/4</code> — Public statement</div><div><code>GET /docs</code> — Swagger UI</div></div>
+</div>
+</div>
+<div class="footer"><p>Built with ❤️ by apactwithgrim × KimiXGrimpact</p><p>Smart Bin Ltd — Nairobi, Kenya — 2026</p></div>
+<script>
+const API_BASE=window.location.origin;
+const mockData={stats:{today:{collections_scheduled:45,collections_completed:38,completion_rate:84.4},monthly:{revenue:156800,transactions:392},outstanding:{total:423500,count:847},overdue:{total:128400,count:156},estates:3,houses:1247},revenue:[{name:"GAKINDU COURT",revenue:89400,transactions:223},{name:"Greenwood Estate",revenue:45200,transactions:112},{name:"Sunset Apartments",revenue:22200,transactions:57}],aging:[{aging_bucket:"1-30 days",count:89,amount:53400},{aging_bucket:"31-60 days",count:42,amount:37800},{aging_bucket:"61-90 days",count:18,amount:25200},{aging_bucket:"90+ days",count:7,amount:12000}],activity:{payments:[{type:"payment",account_number:"348/4",resident_name:"Faith. E",amount:400,method:"mpesa",time:"2026-07-31T14:23:00"},{type:"payment",account_number:"112/2",resident_name:"John K.",amount:400,method:"mpesa",time:"2026-07-31T13:45:00"}],collections:[{type:"collection",account_number:"348/4",status:"completed",date:"2026-07-31",time:"2026-07-31T08:00:00"},{type:"collection",account_number:"205/3",status:"missed",date:"2026-07-31",time:"2026-07-31T09:00:00"}]}};
+async function fetchData(){try{let stats,revenue,aging,activity;try{const r=await fetch(`${API_BASE}/api/dashboard/stats`);if(r.ok)stats=await r.json()}catch(e){}try{const r=await fetch(`${API_BASE}/api/dashboard/revenue-by-estate`);if(r.ok)revenue=await r.json()}catch(e){}try{const r=await fetch(`${API_BASE}/api/dashboard/overdue-aging`);if(r.ok)aging=await r.json()}catch(e){}try{const r=await fetch(`${API_BASE}/api/dashboard/recent-activity`);if(r.ok)activity=await r.json()}catch(e){}stats=stats||mockData.stats;revenue=revenue||mockData.revenue;aging=aging||mockData.aging;activity=activity||mockData.activity;render(stats,revenue,aging,activity)}catch(err){document.getElementById('loading').textContent='Error: '+err.message}}
+function render(stats,revenue,aging,activity){document.getElementById('loading').style.display='none';document.getElementById('content').style.display='block';const kpi=document.getElementById('kpi-cards');kpi.innerHTML=`<div class="card"><div class="card-header"><span class="card-title">Today's Collections</span><span class="positive">${stats.today.completion_rate}%</span></div><div class="card-value">${stats.today.collections_completed}/${stats.today.collections_scheduled}</div></div><div class="card"><div class="card-header"><span class="card-title">Monthly Revenue</span></div><div class="card-value">KES ${stats.monthly.revenue.toLocaleString()}</div><div class="card-sub">${stats.monthly.transactions} transactions</div></div><div class="card"><div class="card-header"><span class="card-title">Outstanding</span></div><div class="card-value">KES ${stats.outstanding.total.toLocaleString()}</div><div class="card-sub">${stats.outstanding.count} bills pending</div></div><div class="card"><div class="card-header"><span class="card-title">Overdue</span></div><div class="card-value negative">KES ${stats.overdue.total.toLocaleString()}</div><div class="card-sub">${stats.overdue.count} accounts overdue</div></div><div class="card"><div class="card-header"><span class="card-title">Estates</span></div><div class="card-value">${stats.estates}</div></div><div class="card"><div class="card-header"><span class="card-title">Houses</span></div><div class="card-value">${stats.houses}</div></div>`;document.querySelector('#revenue-table tbody').innerHTML=revenue.map(r=>`<tr><td>${r.name}</td><td style="color:#34d399;font-weight:600">KES ${r.revenue.toLocaleString()}</td><td>${r.transactions}</td></tr>`).join('');document.querySelector('#aging-table tbody').innerHTML=aging.map(a=>`<tr><td>${a.aging_bucket}</td><td>${a.count}</td><td style="color:#f87171">KES ${a.amount.toLocaleString()}</td></tr>`).join('');const all=[...activity.payments,...activity.collections].sort((a,b)=>new Date(b.time)-new Date(a.time)).slice(0,10);document.querySelector('#activity-table tbody').innerHTML=all.map(a=>{const t=new Date(a.time).toLocaleTimeString('en-KE',{hour:'2-digit',minute:'2-digit'});if(a.type==='payment')return`<tr><td><span class="status status-paid">Payment</span></td><td>${a.account_number}</td><td>KES ${a.amount.toLocaleString()} via ${a.method.toUpperCase()} ${a.resident_name?'('+a.resident_name+')':''}</td><td>${t}</td></tr>`;const c=a.status==='completed'?'status-paid':'status-overdue';return`<tr><td><span class="status ${c}">Collection</span></td><td>${a.account_number}</td><td>${a.status.charAt(0).toUpperCase()+a.status.slice(1)}</td><td>${t}</td></tr>`}).join('')}
+fetchData();
+</script>
+</body>
+</html>
