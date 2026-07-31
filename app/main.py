@@ -34,7 +34,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.config import get_settings
-from app.routers import auth
+from app.routers import auth, estates, houses
 
 settings = get_settings()
 
@@ -129,6 +129,8 @@ def health():
 # Each router handles a group of related endpoints.
 # As we build more routers (estates, houses, bills), we add them here.
 app.include_router(auth.router)
+app.include_router(estates.router)
+app.include_router(houses.router)
 
 
 # ==============================================================================
