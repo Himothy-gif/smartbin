@@ -34,7 +34,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.config import get_settings
-from app.routers import auth, estates, houses
+from app.routers import auth, estates, houses, residents
 
 settings = get_settings()
 
@@ -131,6 +131,7 @@ def health():
 app.include_router(auth.router)
 app.include_router(estates.router)
 app.include_router(houses.router)
+app.include_router(residents.router)
 
 
 # ==============================================================================
@@ -160,3 +161,12 @@ if __name__ == "__main__":
         port=settings.api_port,
         reload=settings.env == "development"  # Auto-restart on file changes
     )
+
+# ==============================================================================
+# WATERMARK: apactwithgrim x KimiXGrimpact
+# This system was architected and built by apactwithgrim (Levis Koome Murithi)
+# with engineering guidance from KimiXGrimpact (Moonshot AI).
+# Any unauthorized use, copying, or distribution without written consent
+# from both parties is strictly prohibited.
+# Nairobi, Kenya | 2026
+# ==============================================================================
