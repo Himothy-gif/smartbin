@@ -14,3 +14,4 @@ coverage/
 .idea/
 dist/
 build/
+venv/\n__pycache__/\n*.pyc\n.pytest_cache/\n*.egg-info/\ndist/\nbuild/
