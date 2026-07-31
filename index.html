@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Smart Bin Ltd</title>
+<style>
+:root{--bg:#0a0e1a;--card:#111827;--border:#1f2937;--text:#e5e7eb;--muted:#9ca3af;--blue:#3b82f6;--green:#10b981;--red:#ef4444;--yellow:#f59e0b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.container{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:4rem 1.5rem;background:radial-gradient(ellipse at top,#1e3a5f 0%,var(--bg) 60%)}
+.hero-icon{font-size:4rem;margin-bottom:1rem;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
+.hero p{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--muted);max-width:600px;margin-bottom:2rem}
+.badge{display:inline-flex;align-items:center;gap:.4rem;background:var(--card);border:1px solid var(--border);padding:.4rem .9rem;border-radius:9999px;font-size:.8rem;font-weight:500;margin:.2rem}
+.cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--blue);color:white;padding:.9rem 2rem;border-radius:12px;font-weight:600;text-decoration:none;transition:all .2s;border:none;cursor:pointer;font-size:1rem}
+.cta:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(59,130,246,.3)}
+.cta-secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+.section{padding:5rem 0}
+.section-title{text-align:center;font-size:clamp(1.5rem,4vw,2.5rem);font-weight:700;margin-bottom:1rem}
+.section-sub{text-align:center;color:var(--muted);max-width:600px;margin:0 auto 3rem;font-size:1.05rem}
+.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.prob-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.8rem;text-align:center;transition:all .3s}
+.prob-card:hover{border-color:var(--red);transform:translateY(-4px)}
+.prob-icon{font-size:2.5rem;margin-bottom:1rem}
+.steps{display:flex;flex-direction:column;gap:1.5rem;max-width:700px;margin:0 auto}
+.step{display:flex;align-items:flex-start;gap:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:all .3s}
+.step:hover{border-color:var(--green)}
+.step-num{flex-shrink:0;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--green),#059669);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+.demo-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:800px;margin:0 auto}
+.demo-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.demo-tab{background:transparent;border:1px solid var(--border);color:var(--muted);padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-weight:500;transition:all .2s}
+.demo-tab.active{background:var(--blue);color:white;border-color:var(--blue)}
+.demo-panel{display:none}.demo-panel.active{display:block;animation:fadeIn .4s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.phone{width:280px;margin:0 auto;background:#1a1a2e;border-radius:32px;padding:1.5rem;border:3px solid #333;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.phone-header{text-align:center;color:#666;font-size:.7rem;margin-bottom:1rem}
+.phone-screen{background:#0f0f1a;border-radius:20px;padding:1rem;min-height:300px}
+.sms-bubble{background:#1e3a5f;border-radius:16px 16px 4px 16px;padding:.8rem 1rem;margin-bottom:.8rem;font-size:.85rem;line-height:1.5;animation:popIn .4s}
+.sms-bubble.incoming{background:#1f2937;border-radius:16px 16px 16px 4px}
+.sms-time{color:#666;font-size:.65rem;text-align:right;margin-top:.3rem}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.flow{display:flex;flex-direction:column;gap:1rem}
+.flow-item{display:flex;align-items:center;gap:1rem;background:#0f0f1a;border-radius:12px;padding:1rem;opacity:.4;transition:all .5s}
+.flow-item.active{opacity:1;border-left:3px solid var(--green)}
+.flow-item .icon{font-size:1.5rem}.flow-item .text{flex:1}
+.flow-item .text strong{display:block;margin-bottom:.2rem}
+.flow-item .text span{color:var(--muted);font-size:.85rem}
+.flow-item .status{font-weight:700;color:var(--green);display:none}
+.flow-item.active .status{display:block}
+.dash-preview{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.dash-card{background:#0f0f1a;border-radius:12px;padding:1.2rem}
+.dash-card .label{color:#666;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem}
+.dash-card .value{font-size:1.6rem;font-weight:700}
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem}
+.tech-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;text-align:center;transition:all .2s}
+.tech-item:hover{border-color:var(--blue)}
+.api-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.api-table th{text-align:left;padding:.8rem;color:var(--muted);font-weight:600;font-size:.75rem;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.api-table td{padding:.8rem;border-bottom:1px solid var(--border)}
+.api-table tr:hover{background:rgba(59,130,246,.05)}
+.api-tag{display:inline-block;background:rgba(16,185,129,.15);color:var(--green);padding:.15rem .5rem;border-radius:4px;font-size:.75rem;font-weight:600}
+.api-tag.post{background:rgba(59,130,246,.15);color:var(--blue)}
+.api-tag.get{background:rgba(139,92,246,.15);color:#8b5cf6}
+.footer{text-align:center;padding:4rem 1.5rem;border-top:1px solid var(--border);color:var(--muted);font-size:.85rem}
+@media(max-width:640px){.dash-preview{grid-template-columns:1fr}.step{flex-direction:column;align-items:flex-start}.phone{width:100%;max-width:280px}}
+</style></head><body>
+
+<section class="hero"><div class="hero-icon">🗑️</div><h1>Smart Bin Ltd</h1><p>Enterprise Garbage Collection Management System. Automated billing, M-PESA integration, SMS notifications, and real-time analytics.</p><div style="margin-bottom:2rem"><span class="badge">🐍 Python 3.11</span><span class="badge">⚡ FastAPI</span><span class="badge">🐬 MySQL 8.0</span><span class="badge">📱 Flutter</span><span class="badge">💳 M-PESA</span><span class="badge">📨 SMS</span></div><div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center"><a href="#demo" class="cta">▶ See Live Demo</a><a href="https://github.com/Himothy-gif/smartbin/tree/python-mysql-version" class="cta cta-secondary" target="_blank">📁 View Code</a></div></section>
+
+<section class="section"><div class="container"><h2 class="section-title" style="color:#fca5a5">❌ The Problem</h2><p class="section-sub">Garbage collection companies manage hundreds of households using paper and Excel. Here is what breaks:</p><div class="problem-grid"><div class="prob-card"><div class="prob-icon">📋</div><h3>Paper Records</h3><p style="color:var(--muted);font-size:.9rem">Hundreds of households tracked in notebooks. No search, no backup, no history.</p></div><div class="prob-card"><div class="prob-icon">💸</div><h3>Revenue Leakage</h3><p style="color:var(--muted);font-size:.9rem">M-PESA payments get lost between the phone and the books. No one knows who paid.</p></div><div class="prob-card"><div class="prob-icon">📵</div><h3>No Reminders</h3><p style="color:var(--muted);font-size:.9rem">Residents forget to pay. No SMS alerts = late payments = cash flow problems.</p></div><div class="prob-card"><div class="prob-icon">🚛</div><h3>Blind Operations</h3><p style="color:var(--muted);font-size:.9rem">Manager has zero visibility. Which houses were collected? Who owes what?</p></div></div></div></section>
+
+<section class="section" style="background:#0d1117"><div class="container"><h2 class="section-title" style="color:var(--green)">✅ The Solution</h2><p class="section-sub">Smart Bin automates the entire garbage collection lifecycle from estate setup to payment reconciliation.</p><div class="steps"><div class="step"><div class="step-num">1</div><div><h4>Estate & House Setup</h4><p style="color:var(--muted);font-size:.9rem">Create an estate → phases auto-generate → houses get account numbers like <strong>348/4</strong> automatically via MySQL trigger.</p></div></div><div class="step"><div class="step-num">2</div><div><h4>Automated Monthly Billing</h4><p style="color:var(--muted);font-size:.9rem">One API call generates bills for ALL houses in an estate. No manual spreadsheets. No missed houses.</p></div></div><div class="step"><div class="step-num">3</div><div><h4>M-PESA Auto-Reconciliation</h4><p style="color:var(--muted);font-size:.9rem">Resident pays via Paybill → system validates account → records payment → updates balance → all automatic.</p></div></div><div class="step"><div class="step-num">4</div><div><h4>SMS Notifications</h4><p style="color:var(--muted);font-size:.9rem">Bill issued → SMS sent. Payment received → confirmation SMS sent instantly. Overdue? Bulk reminder.</p></div></div><div class="step"><div class="step-num">5</div><div><h4>Real-Time Dashboard</h4><p style="color:var(--muted);font-size:.9rem">Revenue, collections, overdue aging, driver performance — everything visible in one place.</p></div></div></div></div></section>
+
+<section class="section" id="demo"><div class="container"><h2 class="section-title" style="color:var(--yellow)">🔴 Live Demo</h2><p class="section-sub">See exactly how a resident pays their bill and how the system handles everything automatically.</p><div class="demo-box"><div class="demo-tabs"><button class="demo-tab active" onclick="showDemo(0,this)">📱 SMS Bill</button><button class="demo-tab" onclick="showDemo(1,this)">💳 M-PESA Pay</button><button class="demo-tab" onclick="showDemo(2,this)">⚙️ Backend</button><button class="demo-tab" onclick="showDemo(3,this)">📊 Dashboard</button></div>
+
+<div class="demo-panel active"><div class="phone"><div class="phone-header">Smart Bin Notification</div><div class="phone-screen"><div class="sms-bubble"><strong>GAKINDU COURT</strong><br><br>Dear Faith. E (348/4), You have an outstanding bill of <strong>KES 400.00</strong>. Kindly purpose to pay by 15 Aug 2026.<br><br>Pay via MPESA Paybill <strong>4060083</strong> Acc: <strong>348/4</strong><br><br>Powered by Smart Bin Ltd. Call 0721482110<div class="sms-time">Today, 8:00 AM</div></div></div></div><div style="text-align:center;margin-top:1.5rem"><button class="cta" onclick="showDemo(1,document.querySelectorAll('.demo-tab')[1])">Next: Resident Pays →</button></div></div>
+
+<div class="demo-panel"><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;max-width:500px;margin:0 auto"><div class="dash-card"><div class="label">Business No.</div><div class="value" style="color:var(--blue)">4060083</div></div><div class="dash-card"><div class="label">Account No.</div><div class="value" style="color:var(--blue)">348/4</div></div><div class="dash-card"><div class="label">Amount</div><div class="value" style="color:var(--green)">KES 400.00</div></div><div class="dash-card"><div class="label">Phone</div><div class="value">254712345678</div></div></div><div style="text-align:center;margin-top:1.5rem"><button class="cta" style="background:var(--green)" onclick="showDemo(2,document.querySelectorAll('.demo-tab')[2])">Next: Backend Processes →</button></div></div>
+
+<div class="demo-panel"><div class="flow" id="flow-container"><div class="flow-item" id="f1"><div class="icon">🔍</div><div class="text"><strong>Validation URL</strong><span>Check if account 348/4 exists and is active</span></div><div class="status">✓ VALID</div></div><div class="flow-item" id="f2"><div class="icon">💰</div><div class="text"><strong>Confirmation URL</strong><span>Record payment in database with M-PESA code</span></div><div class="status">✓ RECORDED</div></div><div class="flow-item" id="f3"><div class="icon">🔄</div><div class="text"><strong>MySQL Trigger</strong><span>Auto-update bill balance, amount_paid, and status</span></div><div class="status">✓ UPDATED</div></div><div class="flow-item" id="f4"><div class="icon">📨</div><div class="text"><strong>SMS Service</strong><span>Send payment confirmation to resident</span></div><div class="status">✓ SENT</div></div></div><div style="text-align:center;margin-top:1.5rem"><button class="cta" style="background:var(--yellow);color:#000" onclick="startFlow();showDemo(3,document.querySelectorAll('.demo-tab')[3])">Run Automation →</button></div></div>
+
+<div class="demo-panel"><div class="dash-preview"><div class="dash-card"><div class="label">Monthly Revenue</div><div class="value" style="color:var(--green)">KES 157,200</div><div style="color:var(--green);font-size:.8rem;margin-top:.3rem">↑ +KES 400</div></div><div class="dash-card"><div class="label">Transactions</div><div class="value" style="color:var(--blue)">393</div><div style="color:var(--green);font-size:.8rem;margin-top:.3rem">↑ +1</div></div><div class="dash-card"><div class="label">Outstanding</div><div class="value" style="color:var(--red)">KES 423,100</div><div style="color:var(--green);font-size:.8rem;margin-top:.3rem">↓ -KES 400</div></div><div class="dash-card"><div class="label">Completion Rate</div><div class="value" style="color:var(--yellow)">84.4%</div><div style="color:var(--muted);font-size:.8rem;margin-top:.3rem">38/45 today</div></div></div><div class="phone" style="margin-top:1.5rem;max-width:320px"><div class="phone-header">Payment Confirmation</div><div class="phone-screen"><div class="sms-bubble">Thank you Faith. E. <strong>KES 400.00</strong> received for account <strong>348/4</strong>. M-PESA Code: QKJ8ABC123. New balance: <strong>KES 0.00</strong>.<br><br>Powered by Smart Bin Ltd<div class="sms-time">Just now</div></div></div></div><div style="text-align:center;margin-top:1.5rem"><button class="cta cta-secondary" onclick="resetFlow();showDemo(0,document.querySelectorAll('.demo-tab')[0])">↻ Restart Demo</button></div></div>
+
+</div></div></section>
+
+<section class="section" style="background:#0d1117"><div class="container"><h2 class="section-title" style="color:#8b5cf6">🏗️ Architecture</h2><p class="section-sub">Built for scale. Multi-tenant, secure, and ready for thousands of households.</p><div style="background:#0f0f1a;border-radius:16px;padding:1.5rem;font-family:'Courier New',monospace;font-size:.8rem;line-height:1.8;overflow-x:auto;white-space:pre;color:var(--muted)">┌─────────────────────────────────────────────────────────────┐
+│  <span style="color:var(--blue);font-weight:600">Admin Dashboard</span>  │  <span style="color:var(--blue);font-weight:600">Flutter Driver App</span>  │  <span style="color:var(--blue);font-weight:600">Resident Portal</span>   │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+                    ┌─────────────────┐
+                    │   <span style="color:var(--green);font-weight:600">FastAPI 0.111</span>   │
+                    │  JWT · Validation  │
+                    │  30+ Endpoints     │
+                    └─────────────────┘
+                              │
+        ┌─────────────┬───────────────┬─────────────┐
+        ▼             ▼               ▼             ▼
+   ┌────────┐   ┌────────┐    ┌──────────┐   ┌──────────┐
+   │ <span style="color:var(--blue)">MySQL</span>  │   │ <span style="color:var(--blue)">Redis</span>  │    │  <span style="color:var(--blue)">M-PESA</span>  │   │  <span style="color:var(--blue)">Africa's</span> │
+   │ 8.0    │   │ Cache  │    │  Daraja  │   │  Talking  │
+   │14 Tbls │   │ Queue  │    │   C2B    │   │   SMS     │
+   │4 Trig  │   │        │    │   API    │   │   API     │
+   └────────┘   └────────┘    └──────────┘   └──────────┘</div></div></section>
+
+<section class="section"><div class="container"><h2 class="section-title">🛠️ Tech Stack</h2><p class="section-sub">Modern, battle-tested technologies chosen for reliability and Kenyan infrastructure.</p><div class="tech-grid"><div class="tech-item"><div style="font-size:2rem;margin-bottom:.5rem">🐍</div><div style="font-weight:600;font-size:.9rem">Python 3.11</div><div style="color:var(--muted);font-size:.75rem;margin-top:.2rem">Backend</div></div><div class="tech-item"><div style="font-size:2rem;margin-bottom:.5rem">⚡</div><div style="font-weight:600;font-size:.9rem">FastAPI</div><div style="color:var(--muted);font-size:.75rem;margin-top:.2rem">API Framework</div></div><div class="tech-item"><div style="font-size:2rem;margin-bottom:.5rem">🐬</div><div style="font-weight:600;font-size:.9rem">MySQL 8.0</div><div style="color:var(--muted);font-size:.75rem;margin-top:.2rem">Database</div></div><div class="tech-item"><div style="font-size:2rem;margin-bottom:.5rem">📱</div><div style="font-weight:600;font-size:.9rem">Flutter</div><div style="color:var(--muted);font-size:.75rem;margin-top:.2rem">Mobile App</div></div><div class="tech-item"><div style="font-size:2rem;margin-bottom:.5rem">💳</div><div style="font-weight:600;font-size:.9rem">M-PESA</div><div style="color:var(--muted);font-size:.75rem;margin-top:.2rem">Payments</div></div><div class="tech-item"><div style="font-size:2rem;margin-bottom:.5rem">📨</div><div style="font-weight:600;font-size:.9rem">SMS</div><div style="color:var(--muted);font-size:.75rem;margin-top:.2rem">Notifications</div></div></div></div></section>
+
+<section class="section" style="background:#0d1117"><div class="container"><h2 class="section-title">📡 API Endpoints</h2><p class="section-sub">30+ documented endpoints. Auto-generated Swagger UI at <code style="background:var(--card);padding:.2rem .5rem;border-radius:4px">/docs</code></p><div style="overflow-x:auto"><table class="api-table"><tr><th>Group</th><th>Endpoint</th><th>Method</th><th>Description</th></tr><tr><td>Auth</td><td>/api/auth/login</td><td><span class="api-tag post">POST</span></td><td>Admin login → JWT token</td></tr><tr><td>Estates</td><td>/api/estates/</td><td><span class="api-tag post">POST</span></td><td>Create estate (auto-phases)</td></tr><tr><td>Houses</td><td>/api/houses/by-account</td><td><span class="api-tag get">GET</span></td><td>Lookup by account number</td></tr><tr><td>Bills</td><td>/api/bills/bulk</td><td><span class="api-tag post">POST</span></td><td>Generate bills for all houses</td></tr><tr><td>Payments</td><td>/api/payments/validate</td><td><span class="api-tag post">POST</span></td><td>M-PESA Validation URL</td></tr><tr><td>Payments</td><td>/api/payments/confirm</td><td><span class="api-tag post">POST</span></td><td>M-PESA Confirmation URL</td></tr><tr><td>SMS</td><td>/api/sms/bulk-reminder</td><td><span class="api-tag post">POST</span></td><td>Send overdue reminders</td></tr><tr><td>Dashboard</td><td>/api/dashboard/stats</td><td><span class="api-tag get">GET</span></td><td>KPIs and metrics</td></tr><tr><td>Portal</td><td>/api/portal/statement</td><td><span class="api-tag get">GET</span></td><td>Public resident statement</td></tr></table></div></div></section>
+
+<section class="section" style="text-align:center;padding:6rem 1.5rem"><h2 style="font-size:clamp(1.5rem,4vw,2.5rem);margin-bottom:1rem">Ready to Transform Your Operations?</h2><p style="color:var(--muted);max-width:500px;margin:0 auto 2rem">Backend is production-ready. M-PESA and SMS are configured for sandbox. Live credentials = instant deployment.</p><div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><a href="https://github.com/Himothy-gif/smartbin/tree/python-mysql-version" class="cta" target="_blank">View Full Code →</a><a href="mailto:grimpact9002@gmail.com" class="cta cta-secondary">Contact Engineer</a></div></section>
+
+<div class="footer"><p>Built with ❤️ in Nairobi, Kenya</p><p style="margin-top:.5rem"><strong>apactwithgrim</strong> × <strong>KimiXGrimpact</strong> — 2026</p><p style="margin-top:1rem;font-size:.75rem"><a href="https://github.com/Himothy-gif/smartbin" target="_blank" style="color:var(--blue);text-decoration:none">GitHub</a> · <a href="https://github.com/Himothy-gif/smartbin/tree/python-mysql-version" target="_blank" style="color:var(--blue);text-decoration:none">Python Branch</a></p></div>
+
+<script>
+function showDemo(idx,btn){document.querySelectorAll('.demo-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));document.querySelectorAll('.demo-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active')}
+function startFlow(){[1,2,3,4].forEach(n=>{setTimeout(()=>{document.getElementById('f'+n).classList.add('active')},n*600)})}
+function resetFlow(){[1,2,3,4].forEach(n=>document.getElementById('f'+n).classList.remove('active'))}
+</script>
+</body></html>
