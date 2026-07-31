@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: smartbin-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-smartbin}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-smartbin123}
+      POSTGRES_DB: ${DB_NAME:-smartbin}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-smartbin} -d ${DB_NAME:-smartbin}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: smartbin-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  api:
+    build: .
+    container_name: smartbin-api
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-smartbin}
+      DB_USER: ${DB_USER:-smartbin}
+      DB_PASSWORD: ${DB_PASSWORD:-smartbin123}
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-this}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      COMPANY_NAME: ${COMPANY_NAME:-Smart Bin Ltd}
+      COMPANY_PAYBILL: ${COMPANY_PAYBILL:-4060083}
+      COMPANY_PHONE: ${COMPANY_PHONE:-0721482110}
+      COMPANY_EMAIL: ${COMPANY_EMAIL:-info@smartbin.co.ke}
+      AFRICASTALKING_API_KEY: ${AFRICASTALKING_API_KEY:-}
+      AFRICASTALKING_USERNAME: ${AFRICASTALKING_USERNAME:-}
+      AFRICASTALKING_SENDER_ID: ${AFRICASTALKING_SENDER_ID:-}
+      MPESA_CONSUMER_KEY: ${MPESA_CONSUMER_KEY:-}
+      MPESA_CONSUMER_SECRET: ${MPESA_CONSUMER_SECRET:-}
+      MPESA_SHORTCODE: ${MPESA_SHORTCODE:-}
+      MPESA_PASSKEY: ${MPESA_PASSKEY:-}
+      MPESA_VALIDATION_URL: ${MPESA_VALIDATION_URL:-}
+      MPESA_CONFIRMATION_URL: ${MPESA_CONFIRMATION_URL:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./src:/app/src
+      - ./uploads:/app/uploads
+
+volumes:
+  postgres_data:
+  redis_data:

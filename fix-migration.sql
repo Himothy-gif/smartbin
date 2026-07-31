@@ -1,0 +1,14 @@
+-- Fix: Drop existing triggers before recreating
+DROP TRIGGER IF EXISTS update_companies_updated_at ON companies;
+DROP TRIGGER IF EXISTS update_users_updated_at ON users;
+DROP TRIGGER IF EXISTS update_estates_updated_at ON estates;
+DROP TRIGGER IF EXISTS update_phases_updated_at ON phases;
+DROP TRIGGER IF EXISTS update_houses_updated_at ON houses;
+DROP TRIGGER IF EXISTS update_residents_updated_at ON residents;
+DROP TRIGGER IF EXISTS update_bills_updated_at ON bills;
+DROP TRIGGER IF EXISTS update_collections_updated_at ON collections;
+DROP TRIGGER IF EXISTS update_drivers_updated_at ON drivers;
+DROP TRIGGER IF EXISTS update_routes_updated_at ON routes;
+DROP TRIGGER IF EXISTS trigger_generate_account_number ON houses;
+DROP TRIGGER IF EXISTS trigger_update_bill_balance ON payments;
+DROP TRIGGER IF EXISTS trigger_update_estate_count ON houses;
