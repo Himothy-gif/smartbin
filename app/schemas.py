@@ -31,7 +31,7 @@ BaseModel vs BaseModel with from_attributes=True:
 from datetime import datetime, date
 from decimal import Decimal
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr, Field, validator
+from pydantic import BaseModel, EmailStr, Field, field_validator, ConfigDict
 import re
 
 
@@ -69,8 +69,7 @@ class UserOut(BaseModel):
     company_id: str
     last_login: Optional[datetime] = None
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ==============================================================================
@@ -86,8 +85,7 @@ class CompanyOut(BaseModel):
     is_active: bool
     created_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ==============================================================================
@@ -110,7 +108,7 @@ class EstateUpdate(BaseModel):
     """
     name: Optional[str] = Field(None, min_length=2, max_length=255)
     location: Optional[str] = Field(None, max_length=500)
-    status: Optional[str] = Field(None, regex="^(active|inactive|suspended)$")
+    status: Optional[str] = Field(None, pattern="^(active|inactive|suspended)$")
 
 
 class PhaseOut(BaseModel):
@@ -121,8 +119,7 @@ class PhaseOut(BaseModel):
     total_houses: int
     created_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class EstateOut(BaseModel):
@@ -137,8 +134,7 @@ class EstateOut(BaseModel):
     updated_at: datetime
     phases: Optional[List[PhaseOut]] = None  # Nested phases, populated by endpoint
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ==============================================================================
@@ -155,7 +151,7 @@ class HouseUpdate(BaseModel):
     house_number: Optional[str] = Field(None, max_length=50)
     gps_coordinates: Optional[str] = Field(None, max_length=100)
     bin_count: Optional[int] = Field(None, ge=0)
-    status: Optional[str] = Field(None, regex="^(active|inactive|suspended|vacant)$")
+    status: Optional[str] = Field(None, pattern="^(active|inactive|suspended|vacant)$")
 
 
 class HouseOut(BaseModel):
@@ -178,8 +174,7 @@ class HouseOut(BaseModel):
     resident_name: Optional[str] = None
     resident_phone: Optional[str] = None
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ==============================================================================
@@ -193,8 +188,8 @@ class ResidentCreate(BaseModel):
     id_number: Optional[str] = Field(None, max_length=50)
     is_primary: bool = True
     
-    @validator("phone_number")
-    def validate_phone(cls, v):
+    @field_validator("phone_number")
+    def validate_phone(v, info):
         """
         Custom validator: ensures phone is in international format.
         Accepts: 2547XXXXXXXX or +2547XXXXXXXX
@@ -227,8 +222,7 @@ class ResidentOut(BaseModel):
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ==============================================================================
@@ -276,8 +270,7 @@ class BillOut(BaseModel):
     resident_name: Optional[str] = None
     phone_number: Optional[str] = None
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class BillSummary(BaseModel):
@@ -295,7 +288,7 @@ class BillSummary(BaseModel):
 class PaymentCreate(BaseModel):
     house_id: str
     amount: Decimal = Field(..., gt=0)
-    payment_method: str = Field(default="cash", regex="^(mpesa|cash|bank_transfer|other)$")
+    payment_method: str = Field(default="cash", pattern="^(mpesa|cash|bank_transfer|other)$")
     payment_reference: Optional[str] = Field(None, max_length=255)
     bill_id: Optional[str] = None
 
@@ -346,8 +339,7 @@ class PaymentOut(BaseModel):
     created_at: datetime
     bill_period: Optional[str] = None  # JOINed from bills table
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ==============================================================================
@@ -370,7 +362,7 @@ class CollectionComplete(BaseModel):
     Driver sends this when they finish collecting from a house.
     """
     weight_kg: Optional[Decimal] = None
-    waste_type: Optional[str] = Field(None, regex="^(general|recyclable|organic|hazardous)$")
+    waste_type: Optional[str] = Field(None, pattern="^(general|recyclable|organic|hazardous)$")
     notes: Optional[str] = None
 
 
@@ -394,8 +386,7 @@ class CollectionOut(BaseModel):
     estate_name: Optional[str] = None
     driver_name: Optional[str] = None
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ==============================================================================
@@ -427,8 +418,7 @@ class DriverOut(BaseModel):
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # ==============================================================================

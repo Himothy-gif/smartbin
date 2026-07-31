@@ -18,7 +18,8 @@ WHY PYDANTIC SETTINGS?
 
 import os
 from functools import lru_cache
-from pydantic import BaseSettings, Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field
 
 
 class Settings(BaseSettings):
@@ -69,13 +70,8 @@ class Settings(BaseSettings):
     mpesa_validation_url: str = ""
     mpesa_confirmation_url: str = ""
     
-    class Config:
-        """
-        Tells Pydantic where to find the .env file.
-        """
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    # Tells Pydantic where to find the .env file
 
 # ==============================================================================
 # SINGLETON PATTERN: Cache the settings object so we don't re-read .env
