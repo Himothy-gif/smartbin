@@ -1,0 +1,17 @@
+# SMART BIN LTD - PYTHON BACKEND DEPENDENCIES
+# Pydantic v1 (pure Python, works with Python 3.14)
+fastapi==0.111.0
+uvicorn[standard]==0.30.0
+sqlalchemy==2.0.31
+pymysql==1.1.1
+cryptography==42.0.8
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.9
+pydantic==1.10.17          # v1 = pure Python, no Rust needed
+alembic==1.13.2
+redis==5.0.7
+apscheduler==3.10.4
+africastalking==2.0.2
+requests==2.32.3
+python-dotenv==1.0.1
